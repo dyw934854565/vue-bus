@@ -15,6 +15,7 @@
   "scripts": {
     "lint": "eslint src __tests__",
     "build": "rimraf dist && rollup -c && uglifyjs dist/vue-bus.js -c -m --comments -o dist/vue-bus.min.js",
+    "publish": "npm publish --access public",
     "test": "jest && codecov"
   },
   "repository": {
