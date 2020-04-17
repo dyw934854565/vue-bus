@@ -6,12 +6,12 @@ export declare interface VueBus {
   /**
    * Listen for a custom event. The callback will receive all the additional arguments passed into these event-triggering methods.
    */
-  on(event: string | string[], callback: (...args: any[]) => void, target?: any): this;
+  on(event: string | string[], callback: (...args: any[]) => void, target: Vue | false): this;
 
   /**
    * Listen for a custom event, but only once. The listener will be removed once it triggers for the first time.
    */
-  once(event: string, callback: (...args: any[]) => void, target?: any): this;
+  once(event: string, callback: (...args: any[]) => void, target: Vue | false): this;
 
   /**
    * Remove custom event listener(s).
