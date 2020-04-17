@@ -137,3 +137,30 @@ test('pass bus function as argument', () => {
   obj.fireOnce(Vue.bus.emit)
   expect(vm.count).toBe(3)
 })
+
+test('auto off', () => {
+  const cb = jest.fn()
+  const cb2 = jest.fn()
+  const cb3 = jest.fn()
+  const vm1 = new Vue({
+  })
+  const vm2 = new Vue({
+    created() {
+      this.$bus.on('evt', cb, this)
+      this.$bus.once('evt', cb2, this)
+      this.$bus.once('evt3', cb3, this)
+    }
+  })
+
+  vm1.$bus.emit('evt')
+  vm1.$bus.emit('evt')
+  expect(cb).toHaveBeenCalledTimes(2)
+  expect(cb2).toHaveBeenCalledTimes(1)
+  vm2.$destroy()
+  vm1.$bus.emit('evt')
+  vm1.$bus.emit('evt')
+  vm1.$bus.emit('evt3')
+  expect(cb).toHaveBeenCalledTimes(2)
+  expect(cb2).toHaveBeenCalledTimes(1)
+  expect(cb3).not.toBeCalled()
+})

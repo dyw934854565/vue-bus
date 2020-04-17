@@ -50,6 +50,7 @@
   },
   "jest": {
     "coverageDirectory": "./coverage/",
+    "testMatch": ["**/?(*.)+(spec|test).[jt]s?(x)"],
     "collectCoverage": true
   }
 }
