@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import './vue';
 
 export function install(vue: typeof Vue): void;
 
@@ -7,12 +6,12 @@ export declare interface VueBus {
   /**
    * Listen for a custom event. The callback will receive all the additional arguments passed into these event-triggering methods.
    */
-  on(event: string | string[], callback: (...args: any[]) => void, target?: typeof Vue): this;
+  on(event: string | string[], callback: (...args: any[]) => void, target?: any): this;
 
   /**
    * Listen for a custom event, but only once. The listener will be removed once it triggers for the first time.
    */
-  once(event: string, callback: (...args: any[]) => void, target?: typeof Vue): this;
+  once(event: string, callback: (...args: any[]) => void, target?: any): this;
 
   /**
    * Remove custom event listener(s).
@@ -26,4 +25,14 @@ export declare interface VueBus {
    * Trigger an event on the current instance. Any additional arguments will be passed into the listener’s callback function.
    */
   emit(event: string, ...args: any[]): this;
+}
+
+declare module "vue/types/vue" {
+  interface Vue {
+    $bus: VueBus;
+  }
+
+  interface VueConstructor {
+    bus: VueBus;
+  }
 }
