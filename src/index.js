@@ -1,15 +1,23 @@
 function VueBus(Vue) {
   const bus = new Vue()
-
+  const evtName = 'vue-bus:beforeDestroy'
+  const onOrOnce = function(funcName, event, callback, target) {
+    this[funcName](event, callback)
+    if (target && target instanceof Vue) {
+      target.$once(evtName, () => {
+        this.$off(event, callback)
+      })
+    }
+  }
   Object.defineProperties(bus, {
     on: {
       get() {
-        return this.$on.bind(this)
+        return onOrOnce.bind(this, '$on')
       }
     },
     once: {
       get() {
-        return this.$once.bind(this)
+        return onOrOnce.bind(this, '$once')
       }
     },
     off: {
@@ -33,6 +41,12 @@ function VueBus(Vue) {
   Object.defineProperty(Vue.prototype, '$bus', {
     get() {
       return bus
+    }
+  })
+
+  Vue.mixin({
+    beforeDestroy: function() {
+      this.$emit(evtName)
     }
   })
 }
