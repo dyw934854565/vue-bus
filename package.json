@@ -1,5 +1,5 @@
 {
-  "name": "vue-event-bus",
+  "name": "@dyw/vue-event-bus",
   "version": "0.0.1",
   "description": "A event bus for Vue.js",
   "main": "dist/vue-bus.common.js",

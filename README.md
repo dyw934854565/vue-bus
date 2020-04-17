@@ -42,6 +42,24 @@ methods: {
   }
 }
 ```
+
+#### 自动在beforeDestroy的时候off，防止内存泄漏
+
+在on和once的时候传入this即可
+
+```js
+// ...
+created() {
+  this.$bus.on('add-todo', this.addTodo, this);
+  this.$bus.once('once', () => console.log('This listener will only fire once'), this);
+},
+methods: {
+  addTodo(newTodo) {
+    this.todos.push(newTodo);
+  }
+}
+```
+
 #### Trigger
 ```js
 // ...
