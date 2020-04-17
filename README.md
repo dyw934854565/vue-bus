@@ -1,40 +1,39 @@
-# vue-bus [![Build Status](https://img.shields.io/circleci/project/yangmingshan/vue-bus.svg)](https://circleci.com/gh/yangmingshan/vue-bus) [![Coverage Status](https://img.shields.io/codecov/c/github/yangmingshan/vue-bus.svg)](https://codecov.io/gh/yangmingshan/vue-bus) [![Downloads](https://img.shields.io/npm/dt/vue-bus.svg)](https://www.npmjs.com/package/vue-bus) [![Version](https://img.shields.io/npm/v/vue-bus.svg)](https://www.npmjs.com/package/vue-bus) [![License](https://img.shields.io/npm/l/vue-bus.svg)](https://www.npmjs.com/package/vue-bus)
+# @dyw/vue-bus
+[![Build Status](https://img.shields.io/circleci/project/dyw934854565/vue-bus.svg)](https://circleci.com/gh/dyw934854565/vue-bus)
+[![Coverage Status](https://img.shields.io/codecov/c/github/dyw934854565/vue-bus.svg)](https://codecov.io/gh/dyw934854565/vue-bus)
+[![Downloads](https://img.shields.io/npm/dt/@dyw/vue-bus.svg)](https://www.npmjs.com/package/@dyw/vue-bus)
+[![Version](https://img.shields.io/npm/v/@dyw/vue-bus.svg)](https://www.npmjs.com/package/@dyw/vue-bus)
+[![License](https://img.shields.io/npm/l/@dyw/vue-bus.svg)](https://www.npmjs.com/package/@dyw/vue-bus)
 
 A event bus for Vue.js, support both Vue 1.0 and 2.0. See Vue [documentation](https://vuejs.org/v2/guide/migration.html#Events) for more detail.
 
 ## Installation
 You can install it via [yarn](https://yarnpkg.com) or [npm](https://npmjs.com).
 ```
-$ yarn add vue-bus
-$ npm install vue-bus --save
+$ yarn add @dyw/vue-bus
+$ npm install @dyw/vue-bus --save
 ```
-And it's available on [jsdelivr](https://cdn.jsdelivr.net/npm/vue-bus/dist/vue-bus.js) or [unpkg](https://unpkg.com/vue-bus/dist/vue-bus.js).
-```html
-<!-- development version -->
-<script src="https://cdn.jsdelivr.net/npm/vue-bus/dist/vue-bus.js"></script>
 
-<!-- production version -->
-<script src="https://cdn.jsdelivr.net/npm/vue-bus/dist/vue-bus.min.js"></script>
-```
 When used with a module system, you must explicitly install the bus via Vue.use():
 ```js
 import Vue from 'vue';
-import VueBus from 'vue-bus';
+import VueBus from '@dyw/vue-bus';
 
 Vue.use(VueBus);
 ```
 You don't need to do this when using global script tags.
 
 ## Usage
-#### Listen and clean
+
+#### 自动在beforeDestroy的时候off，防止内存泄漏
+
+在on和once的时候传入this即可，为了防止内存泄漏，如果用了ts，如果不需要自动off会要求传false
+
 ```js
 // ...
 created() {
-  this.$bus.on('add-todo', this.addTodo);
-  this.$bus.once('once', () => console.log('This listener will only fire once'));
-},
-beforeDestroy() {
-  this.$bus.off('add-todo', this.addTodo);
+  this.$bus.on('add-todo', this.addTodo, this);
+  this.$bus.once('once', () => console.log('This listener will only fire once'), this);
 },
 methods: {
   addTodo(newTodo) {
@@ -43,15 +42,15 @@ methods: {
 }
 ```
 
-#### 自动在beforeDestroy的时候off，防止内存泄漏
-
-在on和once的时候传入this即可
-
+#### Listen and clean
 ```js
 // ...
 created() {
-  this.$bus.on('add-todo', this.addTodo, this);
-  this.$bus.once('once', () => console.log('This listener will only fire once'), this);
+  this.$bus.on('add-todo', this.addTodo, false);
+  this.$bus.once('once', () => console.log('This listener will only fire once'), false);
+},
+beforeDestroy() {
+  this.$bus.off('add-todo', this.addTodo);
 },
 methods: {
   addTodo(newTodo) {
@@ -75,7 +74,9 @@ methods: {
 ```js
 // xxx.js
 import Vue from 'vue';
+import VueBus from '@dyw/vue-bus';
 
+Vue.use(VueBus);
 Vue.bus.emit('someEvent');
 ```
 *Note: `on` `once` `off` `emit` are aliases for `$on` `$once` `$off` `$emit`. See the [API](https://vuejs.org/v2/api/#Instance-Methods-Events) for more detail.*

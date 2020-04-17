@@ -1,6 +1,6 @@
 {
-  "name": "@dyw/vue-event-bus",
-  "version": "0.0.2",
+  "name": "@dyw/vue-bus",
+  "version": "0.0.1",
   "description": "A event bus for Vue.js",
   "main": "dist/vue-bus.common.js",
   "module": "dist/vue-bus.esm.js",
@@ -20,19 +20,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yangmingshan/vue-bus.git"
+    "url": "git+https://github.com/dyw934854565/vue-bus.git"
   },
   "keywords": [
     "vue",
     "events",
     "bus"
   ],
-  "author": "Yang Mingshan <y.mingshan3@gmail.com>",
+  "author": "Yang Mingshan <y.mingshan3@gmail.com>, duanyuwen <dyw934854565@sina.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yangmingshan/vue-bus/issues"
+    "url": "https://github.com/dyw934854565/vue-bus/issues"
   },
-  "homepage": "https://github.com/yangmingshan/vue-bus#readme",
+  "homepage": "https://github.com/dyw934854565/vue-bus#readme",
   "devDependencies": {
     "buble": "^0.19.7",
     "codecov": "^3.2.0",
